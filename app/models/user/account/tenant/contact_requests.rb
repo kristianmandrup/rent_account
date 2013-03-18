@@ -1,4 +1,4 @@
-class User::Account::Tenant
+class User::Account::Tenant < ::User::Account::Base
   module ContactRequest
     extend ActiveSupport::Concern
 

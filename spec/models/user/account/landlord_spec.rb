@@ -1,41 +1,31 @@
 require 'spec_helper'
-require 'models/shared/account_ex'
 
 describe User::Account::Landlord do
-  subject { account }
+  context 'User' do
+    subject { user }
 
-  describe 'New account' do
-    subject { landlord_account }
+    let(:user) { create :landlord_user }
 
-    let(:landlord_account) { create :new_landlord_account }
+    context 'Landlord account' do
+      subject { landlord }
 
-    specify { subject.should be_a(Landlord::Account) }
-    # it_behaves_like "a basic account"
-  end
+      let(:landlord) { user.landlord }
 
-  describe 'Can NOT create account without being embedding in a user' do
-    specify do 
-      expect { Landlord::Account.create }.to raise_error
-    end
-  end
+      it 'should be valid' do
+        expect(subject).to be_valid
+      end
 
-  describe 'Can create account embedded in a user' do
-    specify do 
-      expect { Landlord::Account.create user: user }.to_not raise_error
-    end
+      it 'should be created' do
+        expect(subject).to be_a User::Account::Landlord
+      end
 
-    let(:user) { create :user }
-  end
-
-  describe '.max_tenants_per_property' do    
-    let(:account) { create :landlord_account, max_tenants_per_property: 30 }
-    
-    its(:max_tenants_per_property) { should == 30 }
-  end
-
-  describe 'Default Factory account' do    
-    let(:account) { create :landlord_account }
-    
-    it_behaves_like "a basic account"
+      context 'set max contacts to 30' do
+        before do
+          subject.max_contacts_per_property = 30
+        end
+      
+        its(:max_contacts_per_property) { should == 30 }
+      end
+    end    
   end
 end

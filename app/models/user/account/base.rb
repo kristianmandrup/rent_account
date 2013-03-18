@@ -1,13 +1,15 @@
 class User
   module Account
     class Base < ::Account::Base
-      include BasicDocument
+      include Mongoid::Document
 
-      include_shared    :contactable
-      
-      # include_concerns  :messaging, for: 'User::Account'      
+      def tenant?
+        false
+      end
 
-      embedded_in :user, as: :account
+      def landlord?
+        false
+      end            
     end
   end
 end

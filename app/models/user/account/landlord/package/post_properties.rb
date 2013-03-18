@@ -1,24 +1,30 @@
 module User::Account::Landlord::Package
   class PostProperties < Base
-    embedded_in :packages, class_name: 'User::Account::Landlord::Packages'
+    embedded_in :packages, class_name: 'User::Account::Landlord::Packages', inverse_of: :post_properties
 
-    field  :contact_requests,   type: Integer
+    # nil is no limit
+    field   :max_properties, type: Integer, default: 3
 
-    def self.make_from package
-      self.create 
-        price_from(package, Tenant.currency)
-        .merge(period_from package)
-        .merge(contact_from package)
+    def post_property?
+      landlord.property_count < max_properties
     end
 
-    def self.contact_from package
-      { contact_requests: package[:contact_requests] }
+    def max_properties= value
+      raise ArgumentError, "Currently the app doesn't allow changing max_properties to #{value}, current default value is: #{max_properties}"
     end
 
-    protected
+    def self.none
+      None.new
+    end
 
-    def default_duration
-      20.days
+    class None < User::Account::Generic::Package::None
+      def max_properties
+        0
+      end
+
+      def post_property?
+        false
+      end
     end
   end
 end

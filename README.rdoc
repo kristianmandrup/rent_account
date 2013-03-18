@@ -1,3 +1,0 @@
-= RentAccount
-
-Account functionality.
