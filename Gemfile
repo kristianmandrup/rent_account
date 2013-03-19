@@ -17,7 +17,7 @@ gem 'sugar-high', '~> 0.7.3', github: 'kristianmandrup/sugar-high'
 gem 'hashie',     '~> 1.2'
 gem 'concerned',  '~> 0.1.3'
 
-gem 'xduration',  '~> 3.0', github: 'kristianmandrup/xduration'
+gem 'xduration',  '~> 3.0',   github: 'kristianmandrup/xduration'
 
 group :test do
   gem 'rspec-rails', '>= 2.9'

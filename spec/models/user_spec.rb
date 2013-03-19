@@ -5,6 +5,18 @@ require 'spec_helper'
 describe User do
   subject { user }
 
+  let(:user) { User.create }
+
+  describe 'construction' do
+    it 'should have a tenant account' do
+      expect(subject.tenant).to be_a User::Account::Tenant
+    end
+
+    it 'should have a landlord account' do
+      expect(subject.landlord).to be_a User::Account::Landlord
+    end      
+  end  
+
   context 'Tenant' do
     let(:user) { create :tenant_user }
 
